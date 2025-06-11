@@ -24,6 +24,7 @@ app.get('/api/find-products', async (req, res) => {
   const ideas = completion.choices[0].message.content.split('\n').filter(Boolean);
   res.json(ideas);
 });
+
 app.post('/api/upload-shopify', async (req, res) => {
   const product = req.body;
   const response = await axios.post(
