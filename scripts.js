@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Get the DOM elements by ID
   const findProductsButton = document.getElementById('find-products-button');
   const productInput = document.getElementById('product-input');
   const productList = document.getElementById('product-list');
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const priceInput = document.getElementById('product-price');
   const skuInput = document.getElementById('product-sku');
 
+  // Event listener for finding products
   if (findProductsButton && productInput && productList) {
     findProductsButton.addEventListener('click', function() {
       const productName = productInput.value;
@@ -18,10 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(products => {
           productList.innerHTML = products.map(product => `<li>${product}</li>`).join('');
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error);
         });
     });
   }
 
+  // Event listener for generating ad
   if (generateAdButton && productInput && adOutput) {
     generateAdButton.addEventListener('click', function() {
       const productName = productInput.value;
@@ -29,10 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.text())
         .then(adText => {
           adOutput.textContent = adText;
+        })
+        .catch(error => {
+          console.error('Error generating ad:', error);
         });
     });
   }
 
+  // Event listener for uploading product to Shopify
   if (uploadButton && titleInput && descriptionInput && typeInput && priceInput && skuInput) {
     uploadButton.addEventListener('click', function() {
       const product = {
@@ -51,6 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
           console.log('Product uploaded to Shopify:', data);
+        })
+        .catch(error => {
+          console.error('Error uploading product:', error);
         });
     });
   }
