@@ -24,28 +24,6 @@ app.get('/api/find-products', async (req, res) => {
   const ideas = completion.choices[0].message.content.split('\n').filter(Boolean);
   res.json(ideas);
 });
-
-app.get('/api/scrape-product', async (req, res) => {
-  const query = req.query.query;
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto(`https://www.aliexpress.com/wholesale?SearchText=${query}`);
-
-  const result = await page.evaluate(() => {
-    const item = document.querySelector('.manhattan--container--1lP57Ag');
-    return {
-      title: item?.querySelector('h1')?.innerText || 'Unknown Product',
-      price: item?.querySelector('._30jeq3')?.innerText || '10.00',
-      sku: 'auto-sku',
-      description: 'Auto scraped product',
-      type: 'Fitness'
-    };
-  });
-
-  await browser.close();
-  res.json(result);
-});
-
 app.post('/api/upload-shopify', async (req, res) => {
   const product = req.body;
   const response = await axios.post(
