@@ -1,75 +1,59 @@
-const backendUrl = 'https://dropshipping-backend-apct.onrender.com'; // Replace with your live backend URL
+document.addEventListener('DOMContentLoaded', () => {
+  const productList = document.getElementById('product-list');
+  const adOutput = document.getElementById('ad-output');
 
-// Find Products Button
-const findProductsBtn = document.getElementById('find-products-btn');
-const productList = document.getElementById('product-list');
-
-findProductsBtn.addEventListener('click', async () => {
-  try {
-    const response = await fetch(`${backendUrl}/api/find-products`);
-    const data = await response.json();
-    displayProducts(data);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-});
-
-function displayProducts(products) {
-  productList.innerHTML = '';
-  products.forEach(product => {
-    const listItem = document.createElement('li');
-    listItem.textContent = product;
-    productList.appendChild(listItem);
-  });
-}
-
-// Generate Ad Button
-const generateAdBtn = document.getElementById('generate-ad-btn');
-const adOutput = document.getElementById('ad-output');
-const productNameInput = document.getElementById('product-name');
-
-generateAdBtn.addEventListener('click', async () => {
-  const productName = productNameInput.value.trim();
-  if (productName) {
+  // Find trending products
+  document.getElementById('find-products-btn').addEventListener('click', async () => {
+    productList.innerHTML = 'Loading...';
     try {
-      const response = await fetch(`${backendUrl}/api/generate-ad?product=${productName}`);
-      const ad = await response.text();
-      adOutput.textContent = ad;
-    } catch (error) {
-      console.error('Error generating ad:', error);
+      const res = await fetch('https://dropshipping-backend-apct.onrender.com/api/find-products');
+      const data = await res.json();
+      productList.innerHTML = '';
+      data.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${item}`;
+        productList.appendChild(li);
+      });
+    } catch (err) {
+      productList.innerHTML = 'Failed to load products.';
+      console.error(err);
     }
-  } else {
-    alert('Please enter a product name.');
-  }
-});
+  });
 
-// Upload Product Form
-const uploadForm = document.getElementById('upload-form');
+  // Generate ad copy
+  document.getElementById('generate-ad-btn').addEventListener('click', async () => {
+    const productInput = document.getElementById('ad-product-input').value;
+    adOutput.innerHTML = 'Generating...';
+    try {
+      const res = await fetch(`https://dropshipping-backend-apct.onrender.com/api/generate-ad?product=${encodeURIComponent(productInput)}`);
+      const data = await res.text();
+      adOutput.innerHTML = `<strong>Generated Ad:</strong><br>${data}`;
+    } catch (err) {
+      adOutput.innerHTML = 'Failed to generate ad.';
+      console.error(err);
+    }
+  });
 
-uploadForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
+  // Upload product to Shopify
+  document.getElementById('upload-btn').addEventListener('click', async () => {
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const type = document.getElementById('type').value;
+    const price = document.getElementById('price').value;
+    const sku = document.getElementById('sku').value;
 
-  const product = {
-    title: document.getElementById('product-title').value,
-    description: document.getElementById('product-description').value,
-    type: document.getElementById('product-type').value,
-    price: parseFloat(document.getElementById('product-price').value),
-    sku: document.getElementById('product-sku').value,
-  };
-
-  try {
-    const response = await fetch(`${backendUrl}/api/upload-shopify`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product),
-    });
-
-    const data = await response.json();
-    alert('Product uploaded successfully!');
-    console.log(data);
-  } catch (error) {
-    console.error('Error uploading product:', error);
-  }
+    try {
+      const res = await fetch('https://dropshipping-backend-apct.onrender.com/api/upload-shopify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description, type, price, sku })
+      });
+      const result = await res.json();
+      alert('Product uploaded to Shopify!');
+      console.log(result);
+    } catch (err) {
+      alert('Failed to upload product.');
+      console.error(err);
+    }
+  });
 });
