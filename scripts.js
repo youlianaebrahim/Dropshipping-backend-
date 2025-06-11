@@ -1,46 +1,57 @@
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function () {
-  const backendUrl = 'https://dropshipping-backend-apct.onrender.com';
+document.addEventListener('DOMContentLoaded', function() {
+  const findProductsButton = document.getElementById('find-products-button');
+  const productInput = document.getElementById('product-input');
+  const productList = document.getElementById('product-list');
+  const generateAdButton = document.getElementById('generate-ad-button');
+  const adOutput = document.getElementById('ad-output');
+  const uploadButton = document.getElementById('upload-product-button');
+  const titleInput = document.getElementById('product-title');
+  const descriptionInput = document.getElementById('product-description');
+  const typeInput = document.getElementById('product-type');
+  const priceInput = document.getElementById('product-price');
+  const skuInput = document.getElementById('product-sku');
 
-  // FIND PRODUCTS
-  const findProductsBtn = document.getElementById('find-products-btn');
-  if (findProductsBtn) {
-    findProductsBtn.addEventListener('click', async () => {
-      const res = await fetch(`${backendUrl}/api/find-products`);
-      const ideas = await res.json();
-      alert('Trending Products:\n\n' + ideas.join('\n'));
+  if (findProductsButton && productInput && productList) {
+    findProductsButton.addEventListener('click', function() {
+      const productName = productInput.value;
+      fetch(`/api/find-products?product=${productName}`)
+        .then(response => response.json())
+        .then(products => {
+          productList.innerHTML = products.map(product => `<li>${product}</li>`).join('');
+        });
     });
   }
 
-  // GENERATE AD
-  const generateAdBtn = document.getElementById('generate-ad-btn');
-  if (generateAdBtn) {
-    generateAdBtn.addEventListener('click', async () => {
-      const product = document.getElementById('product-name-input').value;
-      const res = await fetch(`${backendUrl}/api/generate-ad?product=${encodeURIComponent(product)}`);
-      const ad = await res.text();
-      alert('Ad Copy:\n\n' + ad);
+  if (generateAdButton && productInput && adOutput) {
+    generateAdButton.addEventListener('click', function() {
+      const productName = productInput.value;
+      fetch(`/api/generate-ad?product=${productName}`)
+        .then(response => response.text())
+        .then(adText => {
+          adOutput.textContent = adText;
+        });
     });
   }
 
-  // UPLOAD TO SHOPIFY
-  const uploadProductBtn = document.getElementById('upload-product-btn');
-  if (uploadProductBtn) {
-    uploadProductBtn.addEventListener('click', async () => {
-      const title = document.getElementById('product-title').value;
-      const description = document.getElementById('product-description').value;
-      const type = document.getElementById('product-type').value;
-      const price = document.getElementById('product-price').value;
-      const sku = document.getElementById('product-sku').value;
+  if (uploadButton && titleInput && descriptionInput && typeInput && priceInput && skuInput) {
+    uploadButton.addEventListener('click', function() {
+      const product = {
+        title: titleInput.value,
+        description: descriptionInput.value,
+        type: typeInput.value,
+        price: priceInput.value,
+        sku: skuInput.value
+      };
 
-      const res = await fetch(`${backendUrl}/api/upload-shopify`, {
+      fetch('/api/upload-shopify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, type, price, sku }),
-      });
-
-      const result = await res.json();
-      alert('Product uploaded!\n\n' + JSON.stringify(result, null, 2));
+        body: JSON.stringify(product)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Product uploaded to Shopify:', data);
+        });
     });
   }
 });
