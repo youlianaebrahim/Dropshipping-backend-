@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const puppeteer = require('puppeteer');
 const axios = require('axios');
 const OpenAI = require('openai');
 require('dotenv').config();
