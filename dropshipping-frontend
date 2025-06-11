@@ -1,75 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dropshipping Backend Frontend</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      text-align: center;
-    }
-    button {
-      padding: 0.5rem 1rem;
-      font-size: 16px;
-      margin: 10px 0;
-    }
-    .product, .ad {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-    }
-    input {
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      margin: 10px 0;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropshipping Backend API</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>🔥 Dropshipping Backend Frontend 🔥</h1>
+  <header>
+    <h1>Welcome to the Dropshipping Backend API</h1>
+  </header>
 
-  <button onclick="findProducts()">Find Trending Products</button>
-  <div id="products" class="product"></div>
+  <section id="product-section">
+    <h2>Find Trending Products</h2>
+    <button id="find-products-btn">Find Products</button>
+    <ul id="product-list"></ul>
+  </section>
 
-  <input type="text" id="productName" placeholder="Enter product name for Facebook ad" />
-  <button onclick="generateAd()">Generate Facebook Ad</button>
-  <div id="adCopy" class="ad"></div>
+  <section id="ad-section">
+    <h2>Generate Ad</h2>
+    <input type="text" id="product-name" placeholder="Enter product name">
+    <button id="generate-ad-btn">Generate Ad</button>
+    <p id="ad-output"></p>
+  </section>
 
-  <script>
-    const backendURL = 'https://dropshipping-backend-apct.onrender.com';
+  <section id="upload-section">
+    <h2>Upload Product to Shopify</h2>
+    <form id="upload-form">
+      <input type="text" id="product-title" placeholder="Product Title" required>
+      <textarea id="product-description" placeholder="Product Description" required></textarea>
+      <input type="text" id="product-type" placeholder="Product Type" required>
+      <input type="number" id="product-price" placeholder="Product Price" required>
+      <input type="text" id="product-sku" placeholder="Product SKU" required>
+      <button type="submit">Upload Product</button>
+    </form>
+  </section>
 
-    // Function to fetch trending products from backend
-    async function findProducts() {
-      try {
-        const res = await fetch(`${backendURL}/api/find-products`);
-        const data = await res.json();
-        document.getElementById('products').innerHTML = `<strong>Trending Products:</strong><br>${data.join('<br>')}`;
-      } catch (error) {
-        document.getElementById('products').innerHTML = 'Error fetching products. Please try again later.';
-        console.error('Error:', error);
-      }
-    }
-
-    // Function to generate Facebook ad copy for a product
-    async function generateAd() {
-      const product = document.getElementById('productName').value;
-      if (!product) {
-        alert('Please enter a product name');
-        return;
-      }
-      try {
-        const res = await fetch(`${backendURL}/api/generate-ad?product=${encodeURIComponent(product)}`);
-        const adCopy = await res.text();
-        document.getElementById('adCopy').innerHTML = `<strong>Generated Facebook Ad:</strong><br>${adCopy}`;
-      } catch (error) {
-        document.getElementById('adCopy').innerHTML = 'Error generating ad copy. Please try again later.';
-        console.error('Error:', error);
-      }
-    }
-  </script>
+  <script src="scripts.js"></script>
 </body>
 </html>
