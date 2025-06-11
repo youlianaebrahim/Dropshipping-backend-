@@ -1,41 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropshipping Backend API</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dropshipping Product Generator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Welcome to the Dropshipping Backend API</h1>
-  </header>
-
-  <section id="product-section">
-    <h2>Find Trending Products</h2>
-    <button id="find-products-btn">Find Products</button>
+  <div class="container">
+    <h1>Dropshipping Product Finder</h1>
+    <button id="generate">Find Trending Products</button>
     <ul id="product-list"></ul>
-  </section>
-
-  <section id="ad-section">
-    <h2>Generate Ad</h2>
-    <input type="text" id="product-name" placeholder="Enter product name">
-    <button id="generate-ad-btn">Generate Ad</button>
-    <p id="ad-output"></p>
-  </section>
-
-  <section id="upload-section">
-    <h2>Upload Product to Shopify</h2>
-    <form id="upload-form">
-      <input type="text" id="product-title" placeholder="Product Title" required>
-      <textarea id="product-description" placeholder="Product Description" required></textarea>
-      <input type="text" id="product-type" placeholder="Product Type" required>
-      <input type="number" id="product-price" placeholder="Product Price" required>
-      <input type="text" id="product-sku" placeholder="Product SKU" required>
-      <button type="submit">Upload Product</button>
-    </form>
-  </section>
-
+  </div>
   <script src="scripts.js"></script>
 </body>
 </html>
