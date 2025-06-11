@@ -16,6 +16,14 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 app.use(cors());
 app.use(bodyParser.json());
 
+// Define a root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the Dropshipping Backend API!');
+});
+
+// Serve static files from the 'public' directory (optional)
+app.use(express.static('public'));
+
 app.get('/api/find-products', async (req, res) => {
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
