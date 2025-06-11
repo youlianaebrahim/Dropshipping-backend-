@@ -60,3 +60,7 @@ app.get('/api/generate-ad', async (req, res) => {
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+app.get('/', (req, res) => {
+  res.send('Welcome to the Dropshipping Backend API!');
+});
+
