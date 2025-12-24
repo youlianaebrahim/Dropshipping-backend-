@@ -1,23 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dropshipping Product Generator</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frovab 360-LED Red Light Therapy Mask</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Dropshipping Product Finder</h1>
-    <button id="generate">Find Trending Products</button>
-    <ul id="product-list"></ul>
-  </div>
+  <header>
+    <h1>Frovab 360-LED Red Light Therapy Mask</h1>
+  </header>
+
+  <main>
+    <!-- Hero Image -->
+    <section class="hero">
+      <img src="images/led-mask-hero.jpg" alt="Frovab 360-LED Mask" />
+    </section>
+
+    <!-- Product Info -->
+    <section class="product-info">
+      <h2>Professional-Grade Therapy at Home</h2>
+      <ul>
+        <li>360 LEDs with 7 color modes to target acne, wrinkles, and improve skin elasticity</li>
+        <li>Red, Blue, Green + 4 additional colors; clinically-inspired for all skin types</li>
+        <li>Flexible silicone mask with adjustable straps for comfort</li>
+        <li>Built-in rechargeable battery, 8 hours of continuous use</li>
+        <li>Easy-to-use timer & power settings; 15–20 min sessions, 3–5 times/week</li>
+      </ul>
+      <p class="price">$249 USD</p>
+      <button id="add-to-cart">Add to Cart</button>
+    </section>
+
+    <!-- Description -->
+    <section class="description">
+      <h3>About this Product</h3>
+      <p>
+        Transform your skincare routine with the Frovab 360-LED Red Light Therapy Mask.
+        Designed to deliver professional, spa-level results at home, this mask uses
+        7 different light modes and 360 high-powered LEDs to treat acne, reduce fine
+        lines, and boost collagen production. Flexible silicone and adjustable straps
+        provide comfort while maximizing light absorption. Rechargeable and portable,
+        perfect for busy lifestyles or travel. Achieve youthful, radiant skin with
+        consistent use.
+      </p>
+    </section>
+  </main>
+
   <script src="scripts.js"></script>
+  <script>
+    // Example Add to Cart link to Zendrop
+    document.getElementById('add-to-cart').addEventListener('click', function() {
+      window.open('https://app.zendrop.com/checkout?product_id=PRODUCT2_ID', '_blank');
+    });
+  </script>
 </body>
 </html>
-<h1>Dropshipping Product Finder</h1>
 
-<button id="findProductsBtn">Find Trending Products</button>
-
-<!-- This is where results will show up -->
-<div id="results" style="margin-top: 20px;"></div>
